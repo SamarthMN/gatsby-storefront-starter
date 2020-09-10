@@ -1,18 +1,8 @@
 {
-  "name": "gatsby-starter-hello-world",
-  "private": true,
-  "description": "A simplified bare-bones starter for Gatsby",
-  "version": "0.1.0",
-  "license": "0BSD",
-  "scripts": {
-    "build": "gatsby build",
-    "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "start": "npm run develop",
-    "serve": "gatsby serve",
-    "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
-  },
+  "name": "gatsby-storefront-starter",
+  "version": "1.0.0",
+  "description": "gatsby-storefront-starter",
+  "main": "gatsby-config.js",
   "dependencies": {
     "gatsby": "^2.24.54",
     "react": "^16.12.0",
@@ -21,11 +11,17 @@
   "devDependencies": {
     "prettier": "2.1.1"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-hello-world"
+    "url": "git+https://github.com/SamarthMN/gatsby-storefront-starter.git"
   },
+  "author": "samarth.m.n@gmail.com",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
-  }
+    "url": "https://github.com/SamarthMN/gatsby-storefront-starter/issues"
+  },
+  "homepage": "https://github.com/SamarthMN/gatsby-storefront-starter#readme"
 }
