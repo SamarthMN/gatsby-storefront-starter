@@ -19,6 +19,7 @@ const ContextProvider = ({ children }) => {
     checkout: { lineItems: [] },
     products: [],
     shop: {},
+    customerAccessToken: '',
   }
 
   const [store, updateStore] = useState(initialStoreState)
@@ -74,6 +75,14 @@ const ContextProvider = ({ children }) => {
     []
   )
 
+  useEffect(() => {
+    const token = localStorage.getItem('customer_access_token')
+    console.log('store token', token)
+    updateStore(prevState => {
+      return { ...prevState, customerAccessToken: token }
+    })
+  }, [])
+
   return (
     <Context.Provider
       value={{
@@ -124,6 +133,18 @@ const ContextProvider = ({ children }) => {
                 return { ...prevState, checkout: res }
               })
             })
+        },
+        updateCustomerToken: customerAccessToken => {
+          localStorage.setItem('customer_access_token', customerAccessToken)
+          updateStore(prevState => {
+            return { ...prevState, customerAccessToken }
+          })
+        },
+        removeCustomerToken: () => {
+          localStorage.setItem('customer_access_token', '')
+          updateStore(prevState => {
+            return { ...prevState, customerAccessToken: '' }
+          })
         },
       }}
     >
