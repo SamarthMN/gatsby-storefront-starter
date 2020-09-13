@@ -11,6 +11,9 @@ const AccountView = () => {
   const onAddress = () => {
     navigate('./address')
   }
+  const onOrders = () => {
+    navigate('./orders')
+  }
   return (
     <Query
       query={USER_DATA}
@@ -29,9 +32,16 @@ const AccountView = () => {
         const addressCount = edges.length
         return (
           <div>
-            <div>Hi {firstName}</div>
-            <button onClick={onAddress}>View Address {addressCount}</button>
-            <button onClick={removeCustomerToken}>Logout</button>
+            <div>
+              Hi {firstName}
+              <button onClick={removeCustomerToken}>Logout</button>
+            </div>
+            <div>
+              <button onClick={onOrders}>View All Orders</button>
+            </div>
+            <div>
+              <button onClick={onAddress}>View Address {addressCount}</button>
+            </div>
           </div>
         )
       }}

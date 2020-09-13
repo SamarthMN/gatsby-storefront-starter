@@ -22,11 +22,20 @@ export const USER_DATA = gql`
       orders(first: 10) {
         edges {
           node {
+            orderNumber
             name
             totalPrice
             processedAt
             statusUrl
             currencyCode
+            fulfillmentStatus
+            successfulFulfillments {
+              trackingCompany
+              trackingInfo {
+                url
+                number
+              }
+            }
             lineItems(first: 10) {
               edges {
                 node {
@@ -48,8 +57,6 @@ export const USER_DATA = gql`
               lastName
               phone
             }
-            subtotalPrice
-            totalPrice
           }
         }
       }

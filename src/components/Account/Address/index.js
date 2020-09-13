@@ -22,7 +22,7 @@ const Address = () => {
         if (error) {
           return <div>error</div>
         }
-        const { addresses: { edges } = {} } = data.customer
+        const { addresses: { edges } = [] } = data.customer
         return (
           <div>
             <div>Addresses</div>
