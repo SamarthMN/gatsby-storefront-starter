@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Row, Col, Form, Input, Button, Checkbox } from 'antd'
 import { Container } from './../../utils/styles'
 import StoreContext from '../../context/StoreContext'
 import Login from './../../components/Account/Login'
@@ -16,20 +17,28 @@ const AccountPage = () => {
   }
   const onSignUp = () => {}
   return (
-    <Container>
-      <h1>Account</h1>
+    <Container className="div__center__col">
+      <h1 style={{ padding: 30 }}>Sign In</h1>
       {customerAccessToken ? (
         <AccountView />
-      ) : isSignup ? (
-        <>
-          <SignUp onSignUpSuccess={onSignUp} />
-          Already Have account?
-          <button onClick={() => updateIsSignup(false)}>Login</button>
-        </>
       ) : (
         <>
-          <Login onLoginSuccess={onLogin} />
-          <button onClick={() => updateIsSignup(true)}>Sign Up</button>
+          <Row className="div__center__col">
+            <Col span={12}>
+              <Login onLoginSuccess={onLogin} />
+            </Col>
+            <Col span={12}>
+              <div>New Customer?</div>
+              <div>Create an account with us and you'll be able to:</div>
+              <ul>
+                <li>Check out faster</li>
+                <li>Save multiple shipping addresses</li>
+                <li>Access your order history</li>
+                <li>Track new orders</li>
+              </ul>
+              <Button>Sign Up</Button>
+            </Col>
+          </Row>
         </>
       )}
     </Container>
