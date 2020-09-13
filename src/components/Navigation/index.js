@@ -1,33 +1,38 @@
 import React, { useContext } from 'react'
+import { Layout, Space, Row, Col } from 'antd'
+import { navigate } from 'gatsby'
 import reduce from 'lodash/reduce'
 import PropTypes from 'prop-types'
+import StoreContext from './../../context/StoreContext'
+import logo from './../../images/gatsby-icon.png'
+import './styles.css'
+const { Header } = Layout
 
-import StoreContext from '~/context/StoreContext'
-import { CartCounter, Container, MenuLink, Wrapper } from './styles'
-
-const useQuantity = () => {
+const Navigation = ({ siteTitle }) => {
   const {
-    store: { checkout },
+    store: { checkout, customerAccessToken },
   } = useContext(StoreContext)
   const items = checkout ? checkout.lineItems : []
   const total = reduce(items, (acc, item) => acc + item.quantity, 0)
-  return [total !== 0, total]
-}
-
-const Navigation = ({ siteTitle }) => {
-  const [hasItems, quantity] = useQuantity()
+  const hasItems = total !== 0
+  const quantity = total
 
   return (
-    <Wrapper>
-      <Container>
-        <MenuLink to="/">{siteTitle}</MenuLink>
-        <MenuLink to="/account">Account</MenuLink>
-        <MenuLink to="/cart">
-          {hasItems && <CartCounter>{quantity}</CartCounter>}
-          Cart 🛍
-        </MenuLink>
-      </Container>
-    </Wrapper>
+    <Header className="header__menu">
+      <div className="header__menu header__sub__menu">
+        <div className="header__menu__left" onClick={() => navigate('/')}>
+          <img src={logo} width={55} alt={siteTitle} />
+        </div>
+        <Space className="header__menu__right" size={20}>
+          <div onClick={() => navigate('/account')}>
+            {customerAccessToken ? 'Account' : 'Sign In'}
+          </div>
+          <div onClick={() => navigate('/cart')}>
+            Cart {hasItems && quantity}
+          </div>
+        </Space>
+      </div>
+    </Header>
   )
 }
 

@@ -1,0 +1,27 @@
+.header__menu {
+  background-color: #663498;
+  height: 5em;
+  border: unset;
+  display: flex;
+  align-items: center;
+}
+.header__sub__menu {
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.header__menu__left {
+  display: flex;
+  color: white;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  padding-left: 0em;
+}
+.header__menu__right {
+  display: flex;
+  color: white;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
