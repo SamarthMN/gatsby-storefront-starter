@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Query } from 'react-apollo'
 import { Container } from '../../../utils/styles'
 import UpdateAddress from '../../../components/Account/UpdateAddress'
 import { USER_DATA } from '../../../graphql/queries'
 import StoreContext from '../../../context/StoreContext'
+import { navigate } from 'gatsby'
 const getParams = function(url) {
   var params = {}
   var parser = document.createElement('a')
@@ -21,6 +22,14 @@ const EditAddressPage = () => {
   const {
     store: { customerAccessToken },
   } = useContext(StoreContext)
+  useEffect(() => {
+    if (!customerAccessToken) {
+      navigate('/account')
+    }
+  }, [])
+  if (!customerAccessToken) {
+    return null
+  }
   return (
     <Container>
       <h1>Edit Address</h1>

@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react'
 import { Container } from '../../../utils/styles'
-import Address from '../../../components/Account/Address'
-import { navigate } from 'gatsby'
 import StoreContext from '../../../context/StoreContext'
+import { navigate } from 'gatsby'
 
-const AddressPage = () => {
+const OrderPage = () => {
   const {
     store: { customerAccessToken },
   } = useContext(StoreContext)
@@ -18,10 +17,9 @@ const AddressPage = () => {
   }
   return (
     <Container>
-      <h1>AddressPage</h1>
-      <Address />
+      <h1>OrderPage</h1>
     </Container>
   )
 }
 
-export default AddressPage
+export default OrderPage
