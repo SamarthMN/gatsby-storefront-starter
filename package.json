@@ -1,19 +1,40 @@
 {
   "name": "gatsby-storefront-starter",
   "version": "1.0.0",
-  "description": "gatsby-storefront-starter",
-  "main": "gatsby-config.js",
+  "description": "",
+  "main": "gatsby-browser.js",
   "dependencies": {
     "@apollo/client": "^3.1.5",
-    "gatsby": "^2.24.54",
+    "@emotion/core": "^10.0.22",
+    "@emotion/styled": "^10.0.22",
+    "antd": "^4.6.4",
+    "gatsby": "^2.17.4",
+    "gatsby-image": "^2.2.29",
+    "gatsby-plugin-antd": "^2.2.0",
     "gatsby-plugin-apollo": "^3.0.1",
     "gatsby-plugin-apollo-shopify": "^1.1.0",
-    "gatsby-source-shopify": "^3.2.31",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "gatsby-plugin-google-analytics": "^2.0.13",
+    "gatsby-plugin-layout": "^1.0.11",
+    "gatsby-plugin-manifest": "^2.2.23",
+    "gatsby-plugin-offline": "^3.0.16",
+    "gatsby-plugin-react-helmet": "^3.1.13",
+    "gatsby-plugin-root-import": "^2.0.5",
+    "gatsby-plugin-sharp": "^2.2.32",
+    "gatsby-source-filesystem": "^2.1.33",
+    "gatsby-source-shopify": "^3.0.24",
+    "gatsby-transformer-sharp": "^2.3.0",
+    "js-yaml": "^3.13.1",
+    "lodash": "^4.17.19",
+    "prop-types": "^15.7.2",
+    "querystringify": "^2.0.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-helmet": "^5.2.1",
+    "set-value": "^2.0.1",
+    "shopify-buy": "^2.8.0"
   },
   "devDependencies": {
-    "prettier": "2.1.1"
+    "prettier": "^1.15.2"
   },
   "scripts": {
     "build": "gatsby clean && gatsby build",
@@ -27,7 +48,7 @@
     "type": "git",
     "url": "git+https://github.com/SamarthMN/gatsby-storefront-starter.git"
   },
-  "author": "samarth.m.n@gmail.com",
+  "author": "Samarth MN <samarth.m.n@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SamarthMN/gatsby-storefront-starter/issues"

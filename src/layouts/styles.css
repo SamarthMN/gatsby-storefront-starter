@@ -1,0 +1,21 @@
+.main__layout {
+  min-height: 100vh;
+}
+.div__center__col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.div__center__row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.align__center {
+  text-align: center;
+}

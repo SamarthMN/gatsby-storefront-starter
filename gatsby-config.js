@@ -1,24 +1,74 @@
-require("dotenv").config()
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+const path = require('path')
 
 module.exports = {
+  siteMetadata: {
+    title: `Storefront Starter`,
+    description: ``,
+    author: `@samarthmn`,
+  },
   plugins: [
+    `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images`,
+      },
+    },
+    'gatsby-plugin-antd',
+    `gatsby-transformer-sharp`,
+    `gatsby-plugin-sharp`,
+    `gatsby-plugin-layout`,
+    {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: `gatsby-starter-default`,
+        short_name: `starter`,
+        start_url: `/`,
+        background_color: `#663399`,
+        theme_color: `#663399`,
+        display: `minimal-ui`,
+        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
+      },
+    },
     {
       resolve: `gatsby-plugin-apollo-shopify`,
       options: {
         shopName: process.env.SHOP_NAME,
         accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
-        apiVersion: "2020-07",
+        apiVersion: '2020-07',
       },
     },
     {
-      resolve: "gatsby-source-shopify",
+      resolve: `gatsby-source-shopify`,
       options: {
         shopName: process.env.SHOP_NAME,
         accessToken: process.env.SHOPIFY_ACCESS_TOKEN,
-        apiVersion: "2020-07",
+        verbose: true,
+        apiVersion: '2020-07',
         paginationSize: 250,
-        includeCollections: ["shop", "content"],
+        includeCollections: ['shop', 'content'],
       },
     },
+    {
+      resolve: 'gatsby-plugin-root-import',
+      options: {
+        '~': path.join(__dirname, 'src/'),
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-analytics`,
+      options: {
+        trackingId: 'UA-134421805-1',
+        anonymize: true,
+        respectDNT: true,
+      },
+    },
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.app/offline
+    // 'gatsby-plugin-offline',
   ],
 }

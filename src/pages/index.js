@@ -1,45 +1,12 @@
-import React from "react"
-// import { useMutation, gql } from "@apollo/client"
-import { Mutation } from "react-apollo"
-import gql from "graphql-tag"
+import React from 'react'
+import SEO from './../components/seo'
+import ProductGrid from './../components/ProductGrid'
 
-const LOGIN = gql`
-  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
-    customerAccessTokenCreate(input: $input) {
-      customerAccessToken {
-        accessToken
-        expiresAt
-      }
-      customerUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-`
-
-const Home = () => (
-  <Mutation mutation={LOGIN}>
-    {login => {
-      return (
-        <button
-          onClick={() =>
-            login({
-              variables: {
-                input: {
-                  email: "samarth.m.n@gmail.com",
-                  password: "password123",
-                },
-              },
-            })
-          }
-        >
-          GET
-        </button>
-      )
-    }}
-  </Mutation>
+const IndexPage = () => (
+  <>
+    <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+    <ProductGrid />
+  </>
 )
 
-export default Home
+export default IndexPage
