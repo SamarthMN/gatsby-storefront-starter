@@ -32,7 +32,7 @@ const AddAddress = () => {
         ) {
           alert(customerUserErrors[0].message)
         } else {
-          navigate('/account/address')
+          navigate('/account?type=addresses')
         }
         updateLoading(false)
       }}

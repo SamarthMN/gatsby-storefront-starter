@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Layout, Space, Row, Col } from 'antd'
+import { Layout, Space } from 'antd'
 import { navigate } from 'gatsby'
 import reduce from 'lodash/reduce'
 import PropTypes from 'prop-types'
@@ -21,7 +21,8 @@ const Navigation = ({ siteTitle }) => {
     <Header className="header__menu">
       <div className="header__menu header__sub__menu">
         <div className="header__menu__left" onClick={() => navigate('/')}>
-          <img src={logo} width={55} alt={siteTitle} />
+          {siteTitle}
+          {/* <img src={logo} width={55} alt={siteTitle} /> */}
         </div>
         <Space className="header__menu__right" size={20}>
           <div onClick={() => navigate('/account')}>

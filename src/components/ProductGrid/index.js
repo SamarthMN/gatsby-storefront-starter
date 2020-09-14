@@ -1,9 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useStaticQuery, graphql, Link } from 'gatsby'
-
+import { Card, Row, Col } from 'antd'
 import StoreContext from '~/context/StoreContext'
+import Image from 'gatsby-image'
 import { Grid, Product, Title, PriceTag } from './styles'
-import { Img } from '~/utils/styles'
+import { Container } from '../../utils/styles'
+
+const { Meta } = Card
 
 const ProductGrid = () => {
   const {
@@ -40,6 +43,20 @@ const ProductGrid = () => {
     `
   )
 
+  const [isMobile, updateIsMobile] = useState(false)
+  useEffect(() => {
+    updateSize()
+    const subscribe = window.addEventListener('resize', updateSize)
+    return () => subscribe
+  }, [window.innerWidth])
+  const updateSize = () => {
+    if (window.innerHeight / window.innerWidth > 1.5) {
+      updateIsMobile(true)
+    } else {
+      updateIsMobile(false)
+    }
+  }
+
   const getPrice = price =>
     Intl.NumberFormat(undefined, {
       currency: checkout.currencyCode ? checkout.currencyCode : 'EUR',
@@ -48,37 +65,84 @@ const ProductGrid = () => {
     }).format(parseFloat(price ? price : 0))
 
   return (
-    <Grid>
-      {allShopifyProduct.edges ? (
-        allShopifyProduct.edges.map(
-          ({
-            node: {
-              id,
-              handle,
-              title,
-              images: [firstImage],
-              variants: [firstVariant],
-            },
-          }) => (
-            <Product key={id}>
-              <Link to={`/product/${handle}/`}>
-                {firstImage && firstImage.localFile && (
-                  <Img
-                    fluid={firstImage.localFile.childImageSharp.fluid}
-                    alt={handle}
-                  />
-                )}
-              </Link>
-              <Title>{title}</Title>
-              <PriceTag>{getPrice(firstVariant.price)}</PriceTag>
-            </Product>
+    <Container>
+      <Row gutter={[24, 24]} className={isMobile ? 'div__center__row' : ''}>
+        {allShopifyProduct.edges ? (
+          allShopifyProduct.edges.map(
+            ({
+              node: {
+                id,
+                handle,
+                title,
+                images: [firstImage],
+                variants: [firstVariant],
+              },
+            }) => (
+              <Col>
+                <Link to={`/product/${handle}/`}>
+                  <Card
+                    key={id}
+                    hoverable
+                    style={{ width: 300 }}
+                    cover={
+                      firstImage &&
+                      firstImage.localFile && (
+                        <Image
+                          fluid={firstImage.localFile.childImageSharp.fluid}
+                          alt={handle}
+                        />
+                      )
+                    }
+                  >
+                    <Meta
+                      title={title}
+                      description={getPrice(firstVariant.price)}
+                    />
+                  </Card>
+                </Link>
+              </Col>
+            )
           )
-        )
-      ) : (
-        <p>No Products found!</p>
-      )}
-    </Grid>
+        ) : (
+          <p>No Products found!</p>
+        )}
+      </Row>
+    </Container>
   )
+  // return (
+  //   <Container>
+  //     <Grid>
+  //       {allShopifyProduct.edges ? (
+  //         allShopifyProduct.edges.map(
+  //           ({
+  //             node: {
+  //               id,
+  //               handle,
+  //               title,
+  //               images: [firstImage],
+  //               variants: [firstVariant],
+  //             },
+  //           }) => (
+  //             <Product key={id}>
+  //               <Link to={`/product/${handle}/`}>
+  //                 {firstImage && firstImage.localFile && (
+  //                   <Img
+  //                     fluid={firstImage.localFile.childImageSharp.fluid}
+  //                     alt={handle}
+  //                   />
+  //                 )}
+  //               </Link>
+  //               <Title>{title}</Title>
+  //               <PriceTag>{getPrice(firstVariant.price)}</PriceTag>
+  //             </Product>
+  //           )
+  //         )
+  //       ) : (
+  //         <p>No Products found!</p>
+  //       )}
+  //     </Grid>
+  //   </Container>
+  // )
 }
 
 export default ProductGrid

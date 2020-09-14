@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react'
+import { Button } from 'antd'
 import { Mutation } from 'react-apollo'
-import StoreContext from '../../../context/StoreContext'
 import { navigate } from 'gatsby'
+import StoreContext from '../../../context/StoreContext'
 import { DELETE_ADDRESS } from '../../../graphql/mutations'
-import { USER_DATA } from '../../../graphql/queries'
 
 const DeleteAddress = props => {
-  const { addressId } = props
+  const { addressId, isLoading } = props
   const {
     store: { customerAccessToken },
   } = useContext(StoreContext)
@@ -25,16 +25,19 @@ const DeleteAddress = props => {
           alert(customerUserErrors[0].message)
         }
         updateLoading(false)
+        isLoading(false)
       }}
       onError={error => {
         alert(error.message)
         updateLoading(false)
+        isLoading(false)
       }}
       refetchQueries={['USER_DATA']}
     >
       {deleteAddress => {
         const onDelete = () => {
           updateLoading(true)
+          isLoading(true)
           deleteAddress({
             variables: {
               customerAccessToken,
@@ -42,10 +45,15 @@ const DeleteAddress = props => {
             },
           })
         }
-        return loading ? (
-          <div>loading..</div>
-        ) : (
-          <button onClick={() => onDelete(addressId)}>Delete</button>
+        return (
+          <Button
+            onClick={() => onDelete(addressId)}
+            danger
+            style={{ marginLeft: 10 }}
+            loading={loading}
+          >
+            Delete
+          </Button>
         )
       }}
     </Mutation>

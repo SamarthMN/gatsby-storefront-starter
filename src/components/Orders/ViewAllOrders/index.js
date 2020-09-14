@@ -22,7 +22,7 @@ const ViewAllOrders = () => {
           return <div>error</div>
         }
         const { orders: { edges } = [] } = data.customer
-        console.log(edges)
+        // console.log(edges)
         return (
           <div>
             {edges.map(order => {
@@ -37,7 +37,6 @@ const ViewAllOrders = () => {
                 fulfillmentStatus,
                 successfulFulfillments,
               } = order.node
-              console.log(successfulFulfillments)
               return (
                 <div>
                   <div>{name}</div>

@@ -1,6 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import { Container } from '../../../utils/styles'
-import Address from '../../../components/Account/Address'
 import { navigate } from 'gatsby'
 import StoreContext from '../../../context/StoreContext'
 
@@ -11,17 +9,12 @@ const AddressPage = () => {
   useEffect(() => {
     if (!customerAccessToken) {
       navigate('/account')
+    } else {
+      console.log('here')
+      navigate('/account?type=addresses')
     }
-  }, [])
-  if (!customerAccessToken) {
-    return null
-  }
-  return (
-    <Container>
-      <h1>AddressPage</h1>
-      <Address />
-    </Container>
-  )
+  }, [customerAccessToken])
+  return null
 }
 
 export default AddressPage

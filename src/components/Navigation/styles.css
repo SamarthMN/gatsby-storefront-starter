@@ -1,14 +1,16 @@
 .header__menu {
-  background-color: #663498;
-  height: 5em;
+  background-color: #2490ff;
+  height: 4em;
   border: unset;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 .header__sub__menu {
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
+  max-width: 960px;
 }
 .header__menu__left {
   display: flex;
@@ -17,6 +19,7 @@
   justify-content: center;
   align-items: center;
   padding-left: 0em;
+  font-size: 1.2rem;
 }
 .header__menu__right {
   display: flex;

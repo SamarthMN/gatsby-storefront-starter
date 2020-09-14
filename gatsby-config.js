@@ -5,7 +5,7 @@ const path = require('path')
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Shopify Starter with Storefront`,
+    title: `Storefront Starter`,
     description: ``,
     author: `@samarthmn`,
   },

@@ -65,7 +65,7 @@ const UpdateAddress = props => {
         ) {
           alert(customerUserErrors[0].message)
         } else {
-          navigate('/account/address')
+          navigate('/account?type=addresses')
         }
         updateLoading(false)
       }}

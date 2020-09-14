@@ -34,11 +34,11 @@ const AccountPage = () => {
   }
   return (
     <Container className="div__center__col">
-      <h1 style={{ padding: 30 }}>Sign In</h1>
       {customerAccessToken ? (
         <AccountView />
       ) : (
         <>
+          <h1 style={{ padding: 30 }}>Sign In</h1>
           <Row className="div__center__col">
             <Col sm={12}>
               <Login onLoginSuccess={onLogin} />
