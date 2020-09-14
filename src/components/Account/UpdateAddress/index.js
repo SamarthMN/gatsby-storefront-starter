@@ -1,54 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Mutation } from 'react-apollo'
-import StoreContext from '../../../context/StoreContext'
+import { Form, Input, Button, Checkbox, Row, Col, Select } from 'antd'
 import { navigate } from 'gatsby'
+import StoreContext from '../../../context/StoreContext'
 import { UPDATE_ADDRESS } from '../../../graphql/mutations'
+
+const { Option } = Select
 
 const UpdateAddress = props => {
   const { data: { customer = {} } = {}, addId = '' } = props
-  const [address1, updateAddress1] = useState('')
-  const [address2, updateAddress2] = useState('')
-  const [city, updateCity] = useState('')
-  const [company, updateCompany] = useState('')
-  const [country, updateCountry] = useState('')
-  const [province, updateProvince] = useState('')
-  const [zip, updateZip] = useState('')
-  const [firstName, updateFirstName] = useState('')
-  const [lastName, updateLastName] = useState('')
-  const [phone, updatePhone] = useState('')
-  const [addressId, updateAddressId] = useState('')
-  const [laoding, updateLoading] = useState(false)
+  const [loading, updateLoading] = useState(false)
+  const { addresses } = customer
+  const address = addresses.edges.find(address => address.node.id === addId)
 
-  useEffect(() => {
-    const { addresses } = customer
-    const address = addresses.edges.find(address => address.node.id === addId)
-    if (address && address.node) {
-      const {
-        address1,
-        address2,
-        city,
-        company,
-        country,
-        province,
-        zip,
-        firstName,
-        lastName,
-        phone,
-        id,
-      } = address.node
-      updateAddress1(address1)
-      updateAddress2(address2)
-      updateCity(city)
-      updateCompany(company)
-      updateCountry(country)
-      updateProvince(province)
-      updateZip(zip)
-      updateFirstName(firstName)
-      updateLastName(lastName)
-      updatePhone(phone)
-      updateAddressId(id)
-    }
-  }, [])
   const {
     store: { customerAccessToken },
   } = useContext(StoreContext)
@@ -76,10 +40,9 @@ const UpdateAddress = props => {
       refetchQueries={['USER_DATA']}
     >
       {updateAddress => {
-        const onUpdateAddress = event => {
-          event.preventDefault()
+        const onUpdateAddress = data => {
           updateLoading(true)
-          const addressObject = {
+          const {
             address1,
             address2,
             city,
@@ -90,101 +53,213 @@ const UpdateAddress = props => {
             firstName,
             lastName,
             phone,
+            prefix,
+          } = data
+          const addressObject = {
+            address1,
+            address2,
+            city,
+            company,
+            country,
+            province,
+            zip,
+            firstName,
+            lastName,
+            phone: prefix + phone,
           }
           updateAddress({
             variables: {
               customerAccessToken,
               address: addressObject,
-              id: addressId,
+              id: address.node.id,
             },
           })
         }
+        const prefixSelector = (
+          <Form.Item name="prefix" noStyle>
+            <Select
+              style={{
+                width: 70,
+              }}
+              disabled={loading}
+            >
+              <Option value="+91">+91</Option>
+            </Select>
+          </Form.Item>
+        )
         return (
-          <form onSubmit={onUpdateAddress} style={{ textAlign: 'center' }}>
-            <div>
-              <input
-                type="text"
-                value={firstName}
-                placeholder="First Name"
-                onChange={e => updateFirstName(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={lastName}
-                placeholder="Last Name"
-                onChange={e => updateLastName(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={phone}
-                placeholder="Phone Number"
-                onChange={e => updatePhone(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={address1}
-                placeholder="Address 1"
-                onChange={e => updateAddress1(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={address2}
-                placeholder="Address 2"
-                onChange={e => updateAddress2(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={city}
-                placeholder="City"
-                onChange={e => updateCity(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={company}
-                placeholder="Company"
-                onChange={e => updateCompany(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={country}
-                placeholder="Country"
-                onChange={e => updateCountry(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={province}
-                placeholder="Province/State"
-                onChange={e => updateProvince(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="text"
-                value={zip}
-                placeholder="Zip/Postal Code"
-                onChange={e => updateZip(e.target.value)}
-              />
-            </div>
-            <div>
-              {laoding ? 'Loading...' : <input type="submit" value="Update" />}
-            </div>
-          </form>
+          <Form
+            onFinish={onUpdateAddress}
+            layout="vertical"
+            className="align__center"
+            initialValues={{
+              prefix: '+91',
+              address1: address.node.address1,
+              address2: address.node.address2,
+              city: address.node.city,
+              country: address.node.country,
+              state: address.node.state,
+              province: address.node.province,
+              company: address.node.company,
+              firstName: address.node.firstName,
+              lastName: address.node.lastName,
+              zip: address.node.zip,
+              phone: address.node.phone.substring(3),
+            }}
+            scrollToFirstError
+          >
+            <Row
+              gutter={[24, 24]}
+              style={{ paddingLeft: 12, paddingRight: 12 }}
+            >
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  name="firstName"
+                  label={<span>First Name</span>}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your First Name!',
+                      whitespace: true,
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  name="lastName"
+                  label={<span>Last Name</span>}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Last Name!',
+                      whitespace: true,
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  label="Address 1"
+                  name="address1"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Address 1',
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item label="Address 2" name="address2">
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item label="Company" name="company">
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  label="City"
+                  name="city"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your city',
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  label="Country"
+                  name="country"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your country',
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  label="Province/State"
+                  name="province"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Province/State',
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  label="Zip/Postal Code"
+                  name="zip"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input your Zip/Postal Code',
+                    },
+                  ]}
+                >
+                  <Input disabled={loading} size="large" />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={12}>
+                <Form.Item
+                  name="phone"
+                  label="Phone Number"
+                  rules={[
+                    {
+                      required: true,
+                      len: 10,
+                      message: 'Invalid phone number!',
+                    },
+                  ]}
+                >
+                  <Input
+                    addonBefore={prefixSelector}
+                    style={{
+                      width: '100%',
+                    }}
+                    maxLength={10}
+                    minLength={10}
+                    disabled={loading}
+                    size="large"
+                  />
+                </Form.Item>
+              </Col>
+              <Col xs={24} sm={24} md={24} className="align__center">
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="large"
+                    loading={loading}
+                  >
+                    Update Address
+                  </Button>
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
         )
       }}
     </Mutation>

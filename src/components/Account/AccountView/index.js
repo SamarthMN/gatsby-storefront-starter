@@ -69,7 +69,7 @@ const AccountView = () => {
               <Address />
             </TabPane>
             <TabPane
-              tab="Account Settings"
+              tab="Account Info"
               key="settings"
               active={type === 'settings'}
             >

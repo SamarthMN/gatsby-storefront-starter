@@ -1,11 +1,14 @@
 import React, { useContext, useEffect } from 'react'
 import { Query } from 'react-apollo'
+import { navigate } from 'gatsby'
+import { Typography } from 'antd'
 import { Container } from '../../../utils/styles'
 import UpdateAddress from '../../../components/Account/UpdateAddress'
 import { USER_DATA } from '../../../graphql/queries'
 import StoreContext from '../../../context/StoreContext'
-import { navigate } from 'gatsby'
 import { getParams } from '../../../utils/common'
+
+const { Title } = Typography
 
 const EditAddressPage = () => {
   const { id } = getParams(window.location.href)
@@ -21,8 +24,8 @@ const EditAddressPage = () => {
     return null
   }
   return (
-    <Container>
-      <h1>Edit Address</h1>
+    <Container className="align__center">
+      <Title level={4}>Update Address</Title>
       <Query
         query={USER_DATA}
         variables={{

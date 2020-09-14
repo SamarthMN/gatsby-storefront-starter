@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { useStaticQuery, graphql, Link } from 'gatsby'
-import { Card, Row, Col } from 'antd'
-import StoreContext from '~/context/StoreContext'
+import { Card, Row, Col, Typography } from 'antd'
+import StoreContext from './../../context/StoreContext'
 import Image from 'gatsby-image'
-import { Grid, Product, Title, PriceTag } from './styles'
 import { Container } from '../../utils/styles'
 
+const { Title, Text } = Typography
 const { Meta } = Card
 
 const ProductGrid = () => {
@@ -35,6 +35,7 @@ const ProductGrid = () => {
               }
               variants {
                 price
+                compareAtPrice
               }
             }
           }
@@ -63,7 +64,6 @@ const ProductGrid = () => {
       minimumFractionDigits: 2,
       style: 'currency',
     }).format(parseFloat(price ? price : 0))
-
   return (
     <Container>
       <Row gutter={[24, 24]} className={isMobile ? 'div__center__row' : ''}>
@@ -94,10 +94,11 @@ const ProductGrid = () => {
                       )
                     }
                   >
-                    <Meta
-                      title={title}
-                      description={getPrice(firstVariant.price)}
-                    />
+                    <Title level={4}>{title}</Title>
+                    <Text>
+                      <del>{getPrice(firstVariant.compareAtPrice)}</del>
+                    </Text>
+                    <Text strong>{' ' + getPrice(firstVariant.price)}</Text>
                   </Card>
                 </Link>
               </Col>
@@ -109,40 +110,6 @@ const ProductGrid = () => {
       </Row>
     </Container>
   )
-  // return (
-  //   <Container>
-  //     <Grid>
-  //       {allShopifyProduct.edges ? (
-  //         allShopifyProduct.edges.map(
-  //           ({
-  //             node: {
-  //               id,
-  //               handle,
-  //               title,
-  //               images: [firstImage],
-  //               variants: [firstVariant],
-  //             },
-  //           }) => (
-  //             <Product key={id}>
-  //               <Link to={`/product/${handle}/`}>
-  //                 {firstImage && firstImage.localFile && (
-  //                   <Img
-  //                     fluid={firstImage.localFile.childImageSharp.fluid}
-  //                     alt={handle}
-  //                   />
-  //                 )}
-  //               </Link>
-  //               <Title>{title}</Title>
-  //               <PriceTag>{getPrice(firstVariant.price)}</PriceTag>
-  //             </Product>
-  //           )
-  //         )
-  //       ) : (
-  //         <p>No Products found!</p>
-  //       )}
-  //     </Grid>
-  //   </Container>
-  // )
 }
 
 export default ProductGrid

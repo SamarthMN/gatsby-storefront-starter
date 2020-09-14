@@ -5,6 +5,7 @@ export const USER_DATA = gql`
     customer(customerAccessToken: $customerAccessToken) {
       email
       firstName
+      lastName
       phone
       defaultAddress {
         id

@@ -1,8 +1,11 @@
 import React, { useContext, useEffect } from 'react'
+import { navigate } from 'gatsby'
+import { Typography } from 'antd'
 import { Container } from '../../../utils/styles'
 import AddAddress from '../../../components/Account/AddAddress'
 import StoreContext from '../../../context/StoreContext'
-import { navigate } from 'gatsby'
+
+const { Title } = Typography
 
 const AddAddressPage = () => {
   const {
@@ -17,8 +20,8 @@ const AddAddressPage = () => {
     return null
   }
   return (
-    <Container>
-      <h1>Add Address</h1>
+    <Container className="align__center">
+      <Title level={4}>Add Address</Title>
       <AddAddress />
     </Container>
   )

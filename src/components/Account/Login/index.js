@@ -81,7 +81,7 @@ const Login = props => {
                 },
               ]}
             >
-              <Input disabled={loading} />
+              <Input disabled={loading} size="large" />
             </Form.Item>
             <Form.Item
               label="Password"
@@ -93,7 +93,7 @@ const Login = props => {
                 },
               ]}
             >
-              <Input.Password disabled={loading} />
+              <Input.Password disabled={loading} size="large" />
             </Form.Item>
             <Form.Item>
               <Button

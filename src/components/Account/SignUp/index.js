@@ -149,7 +149,7 @@ const SignUp = () => {
                           },
                         ]}
                       >
-                        <Input disabled={loading} />
+                        <Input disabled={loading} size="large" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={12}>
@@ -164,7 +164,7 @@ const SignUp = () => {
                           },
                         ]}
                       >
-                        <Input disabled={loading} />
+                        <Input disabled={loading} size="large" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={12}>
@@ -182,7 +182,7 @@ const SignUp = () => {
                           },
                         ]}
                       >
-                        <Input disabled={loading} />
+                        <Input disabled={loading} size="large" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={12}>
@@ -205,6 +205,7 @@ const SignUp = () => {
                           maxLength={10}
                           minLength={10}
                           disabled={loading}
+                          size="large"
                         />
                       </Form.Item>
                     </Col>
@@ -228,7 +229,7 @@ const SignUp = () => {
                         ]}
                         hasFeedback
                       >
-                        <Input.Password disabled={loading} />
+                        <Input.Password disabled={loading} size="large" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={12}>
@@ -258,7 +259,7 @@ const SignUp = () => {
                           }),
                         ]}
                       >
-                        <Input.Password disabled={loading} />
+                        <Input.Password disabled={loading} size="large" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={24} className="align__center">

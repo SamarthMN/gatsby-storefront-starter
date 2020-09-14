@@ -29,6 +29,32 @@ export const SIGNUP = gql`
     }
   }
 `
+
+export const UPDATE_CUSTOMER = gql`
+  mutation UPDATE_CUSTOMER(
+    $customerAccessToken: String!
+    $customer: CustomerUpdateInput!
+  ) {
+    customerUpdate(
+      customerAccessToken: $customerAccessToken
+      customer: $customer
+    ) {
+      customer {
+        id
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`
+
 export const ADD_ADDRESS = gql`
   mutation ADD_ADDRESS(
     $customerAccessToken: String!
