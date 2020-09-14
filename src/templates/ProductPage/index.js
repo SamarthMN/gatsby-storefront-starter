@@ -1,16 +1,12 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import Image from 'gatsby-image'
+import { Row, Col, Typography, Divider } from 'antd'
+import SEO from './../../components/seo'
+import ProductForm from './../../components/ProductForm'
+import { Container } from './../../utils/styles'
 
-import SEO from '~/components/seo'
-import ProductForm from '~/components/ProductForm'
-import {
-  Img,
-  Container,
-  TwoColumnGrid,
-  GridLeft,
-  GridRight,
-} from '~/utils/styles'
-import { ProductTitle, ProductDescription } from './styles'
+const { Text, Title } = Typography
 
 const ProductPage = ({ data }) => {
   const product = data.shopifyProduct
@@ -18,24 +14,25 @@ const ProductPage = ({ data }) => {
     <>
       <SEO title={product.title} description={product.description} />
       <Container>
-        <TwoColumnGrid>
-          <GridLeft>
+        <Row gutter={[24, 24]}>
+          <Col xs={24} sm={24} md={12}>
             {product.images.map(image => (
-              <Img
+              <Image
                 fluid={image.localFile.childImageSharp.fluid}
                 key={image.id}
                 alt={product.title}
               />
             ))}
-          </GridLeft>
-          <GridRight>
-            <ProductTitle>{product.title}</ProductTitle>
-            <ProductDescription
+          </Col>
+          <Col xs={24} sm={24} md={12}>
+            <Title level={3}>{product.title}</Title>
+            <ProductForm product={product} />
+            <Divider />
+            <div
               dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
             />
-            <ProductForm product={product} />
-          </GridRight>
-        </TwoColumnGrid>
+          </Col>
+        </Row>
       </Container>
     </>
   )
