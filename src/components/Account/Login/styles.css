@@ -1,4 +1,11 @@
 .form__container {
   width: 80%;
-  padding-left: 1em;
+}
+@media only screen and (max-width: 600px) {
+  .form__container {
+    width: 100%;
+  }
+}
+.align__center {
+  text-align: center;
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Mutation } from 'react-apollo'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { LOGIN } from '../../../graphql/mutations'
@@ -7,6 +7,19 @@ import './styles.css'
 const Login = props => {
   const { onLoginSuccess } = props
   const [loading, updateLoading] = useState(false)
+  const [isMobile, updateIsMobile] = useState(false)
+  useEffect(() => {
+    updateSize()
+    const subscribe = window.addEventListener('resize', updateSize)
+    return () => subscribe
+  }, [window.innerWidth])
+  const updateSize = () => {
+    if (window.innerHeight / window.innerWidth > 1.5) {
+      updateIsMobile(true)
+    } else {
+      updateIsMobile(false)
+    }
+  }
   return (
     <Mutation
       mutation={LOGIN}
@@ -55,8 +68,8 @@ const Login = props => {
             onFinishFailed={err => {
               console.log(err)
             }}
-            layout="vertical"
-            className="form__container"
+            layout={isMobile ? 'horizontal' : 'vertical'}
+            className={`form__container ${isMobile ? 'align__center' : ''}`}
           >
             <Form.Item
               label="Email"
@@ -83,7 +96,12 @@ const Login = props => {
               <Input.Password disabled={loading} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" loading={loading}>
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={loading}
+                size="large"
+              >
                 Submit
               </Button>
             </Form.Item>
@@ -95,28 +113,3 @@ const Login = props => {
 }
 
 export default Login
-
-{
-  /* <form onSubmit={onLogin} style={{ textAlign: 'center' }}>
-<div>
-  <input
-    type="text"
-    inputMode="email"
-    placeholder="email"
-    onChange={e => updateEmail(e.target.value)}
-  />
-</div>
-<div>
-  <input
-    type="password"
-    placeholder="password"
-    onChange={e => updatePassword(e.target.value)}
-  />
-</div>
-{loading ? (
-  <div>loading..</div>
-) : (
-  <input type="submit" value="login" />
-)}
-</form> */
-}
