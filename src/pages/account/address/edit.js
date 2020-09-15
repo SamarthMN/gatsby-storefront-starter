@@ -6,12 +6,12 @@ import { Container } from '../../../utils/styles'
 import UpdateAddress from '../../../components/Account/UpdateAddress'
 import { USER_DATA } from '../../../graphql/queries'
 import StoreContext from '../../../context/StoreContext'
-import { getParams } from '../../../utils/common'
+import { getParams, isBrowser } from '../../../utils/common'
 
 const { Title } = Typography
 
 const EditAddressPage = () => {
-  const { id } = getParams(window.location.href)
+  const { id } = getParams(isBrowser ? window.location.href : '')
   const {
     store: { customerAccessToken },
   } = useContext(StoreContext)

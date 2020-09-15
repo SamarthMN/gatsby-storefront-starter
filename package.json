@@ -37,6 +37,7 @@
     "prettier": "^1.15.2"
   },
   "scripts": {
+    "deploy": "gatsby clean && gatsby build && firebase deploy --only hosting",
     "build": "gatsby clean && gatsby build",
     "develop": "gatsby clean && gatsby develop",
     "dev": "gatsby clean && gatsby develop",

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import Client from 'shopify-buy'
 
 import Context from '~/context/StoreContext'
+import { isBrowser } from '../utils/common'
 
 const client = Client.buildClient(
   {
@@ -28,7 +29,7 @@ const ContextProvider = ({ children }) => {
   useEffect(() => {
     const initializeCheckout = async () => {
       // Check for an existing cart.
-      const isBrowser = typeof window !== 'undefined'
+
       const existingCheckoutID = isBrowser
         ? localStorage.getItem('shopify_checkout_id')
         : null
@@ -55,7 +56,9 @@ const ContextProvider = ({ children }) => {
             return
           }
         } catch (e) {
-          localStorage.setItem('shopify_checkout_id', null)
+          if (isBrowser) {
+            localStorage.setItem('shopify_checkout_id', null)
+          }
         }
       }
 
@@ -135,13 +138,17 @@ const ContextProvider = ({ children }) => {
             })
         },
         updateCustomerToken: customerAccessToken => {
-          localStorage.setItem('customer_access_token', customerAccessToken)
+          if (isBrowser) {
+            localStorage.setItem('customer_access_token', customerAccessToken)
+          }
           updateStore(prevState => {
             return { ...prevState, customerAccessToken }
           })
         },
         removeCustomerToken: () => {
-          localStorage.setItem('customer_access_token', '')
+          if (isBrowser) {
+            localStorage.setItem('customer_access_token', '')
+          }
           updateStore(prevState => {
             return { ...prevState, customerAccessToken: '' }
           })

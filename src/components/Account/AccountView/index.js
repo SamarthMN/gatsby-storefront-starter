@@ -6,7 +6,7 @@ import { USER_DATA } from './../../../graphql/queries'
 import StoreContext from '../../../context/StoreContext'
 import ViewAllOrders from '../../Orders/ViewAllOrders'
 import Address from '../../Account/Address'
-import { getParams } from '../../../utils/common'
+import { getParams, isBrowser } from '../../../utils/common'
 import Settings from '../Settings'
 
 const { TabPane } = Tabs
@@ -19,7 +19,7 @@ const AccountView = () => {
   const [type, updateType] = useState()
 
   useEffect(() => {
-    const { type } = getParams(window.location.href)
+    const { type } = getParams(isBrowser ? window.location.href : '')
     if (type) {
       handleUpdateType(type)
     } else {

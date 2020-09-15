@@ -4,6 +4,7 @@ import { Card, Row, Col, Typography } from 'antd'
 import StoreContext from './../../context/StoreContext'
 import Image from 'gatsby-image'
 import { Container } from '../../utils/styles'
+import { isBrowser } from '../../utils/common'
 
 const { Title, Text } = Typography
 const { Meta } = Card
@@ -47,11 +48,14 @@ const ProductGrid = () => {
   const [isMobile, updateIsMobile] = useState(false)
   useEffect(() => {
     updateSize()
-    const subscribe = window.addEventListener('resize', updateSize)
+    let subscribe = null
+    if (isBrowser) {
+      subscribe = window.addEventListener('resize', updateSize)
+    }
     return () => subscribe
-  }, [window.innerWidth])
+  }, [isBrowser ? window.innerWidth : ''])
   const updateSize = () => {
-    if (window.innerHeight / window.innerWidth > 1.5) {
+    if (isBrowser && window.innerHeight / window.innerWidth > 1.5) {
       updateIsMobile(true)
     } else {
       updateIsMobile(false)

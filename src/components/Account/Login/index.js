@@ -3,6 +3,7 @@ import { Mutation } from 'react-apollo'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { LOGIN } from '../../../graphql/mutations'
 import './styles.css'
+import { isBrowser } from '../../../utils/common'
 
 const Login = props => {
   const { onLoginSuccess } = props
@@ -10,11 +11,14 @@ const Login = props => {
   const [isMobile, updateIsMobile] = useState(false)
   useEffect(() => {
     updateSize()
-    const subscribe = window.addEventListener('resize', updateSize)
+    let subscribe = null
+    if (isBrowser) {
+      subscribe = window.addEventListener('resize', updateSize)
+    }
     return () => subscribe
-  }, [window.innerWidth])
+  }, [isBrowser ? window.innerWidth : ''])
   const updateSize = () => {
-    if (window.innerHeight / window.innerWidth > 1.5) {
+    if (isBrowser && window.innerHeight / window.innerWidth > 1.5) {
       updateIsMobile(true)
     } else {
       updateIsMobile(false)

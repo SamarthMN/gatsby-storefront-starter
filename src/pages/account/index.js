@@ -6,6 +6,7 @@ import Login from './../../components/Account/Login'
 import SignUp from '../../components/Account/SignUp'
 import AccountView from '../../components/Account/AccountView'
 import { navigate } from 'gatsby'
+import { isBrowser } from '../../utils/common'
 
 const AccountPage = () => {
   const {
@@ -19,11 +20,14 @@ const AccountPage = () => {
   }
   useEffect(() => {
     updateSize()
-    const subscribe = window.addEventListener('resize', updateSize)
+    let subscribe = null
+    if (isBrowser) {
+      subscribe = window.addEventListener('resize', updateSize)
+    }
     return () => subscribe
-  }, [window.innerWidth])
+  }, [isBrowser ? window.innerWidth : ''])
   const updateSize = () => {
-    if (window.innerHeight / window.innerWidth > 1.5) {
+    if (isBrowser && window.innerHeight / window.innerWidth > 1.5) {
       updateIsMobile(true)
     } else {
       updateIsMobile(false)

@@ -3,7 +3,7 @@ import { Query } from 'react-apollo'
 import { Table, Tag, Space } from 'antd'
 import StoreContext from '../../../context/StoreContext'
 import { USER_DATA } from '../../../graphql/queries'
-import { formatDate } from '../../../utils/common'
+import { formatDate, isBrowser } from '../../../utils/common'
 
 const ViewAllOrders = () => {
   const {
@@ -85,7 +85,10 @@ const ViewAllOrders = () => {
             size="large"
             columns={columns}
             dataSource={dataSource}
-            style={{ width: window.innerWidth * 0.9, maxWidth: 960 }}
+            style={{
+              width: isBrowser ? window.innerWidth * 0.9 : '',
+              maxWidth: 960,
+            }}
           />
         )
       }}
