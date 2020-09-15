@@ -9,3 +9,10 @@
 .align__center {
   text-align: center;
 }
+.align__right {
+  text-align: right;
+}
+.padding__vertical {
+  padding-left: 2em;
+  padding-right: 2em;
+}

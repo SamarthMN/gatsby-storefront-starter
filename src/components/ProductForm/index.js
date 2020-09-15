@@ -92,7 +92,7 @@ const ProductForm = ({ product }) => {
   }).format(variant.compareAtPrice)
 
   return (
-    <div style={{ paddingLeft: '2em', paddingRight: '2em' }}>
+    <div className="padding__vertical">
       <Title level={5} style={{ display: 'flex' }}>
         <del style={{ paddingRight: '0.5em' }}>{compareAtPrice}</del>
         <div>{price}</div>

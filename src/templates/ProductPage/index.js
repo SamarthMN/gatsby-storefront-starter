@@ -6,7 +6,7 @@ import SEO from './../../components/seo'
 import ProductForm from './../../components/ProductForm'
 import { Container } from './../../utils/styles'
 
-const { Text, Title } = Typography
+const { Title } = Typography
 
 const ProductPage = ({ data }) => {
   const product = data.shopifyProduct
@@ -25,15 +25,13 @@ const ProductPage = ({ data }) => {
             ))}
           </Col>
           <Col xs={24} sm={24} md={12}>
-            <Title
-              level={3}
-              style={{ paddingLeft: '1em', paddingRight: '1em' }}
-            >
+            <Title level={3} className="padding__vertical">
               {product.title}
             </Title>
             <ProductForm product={product} />
             <Divider />
             <div
+              className="padding__vertical"
               dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
             />
           </Col>

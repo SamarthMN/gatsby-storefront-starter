@@ -109,3 +109,38 @@ export const DELETE_ADDRESS = gql`
     }
   }
 `
+export const UPDATE_CHECKOUT = gql`
+  mutation UPDATE_CHECKOUT($checkoutId: ID!, $customerAccessToken: String!) {
+    checkoutCustomerAssociateV2(
+      checkoutId: $checkoutId
+      customerAccessToken: $customerAccessToken
+    ) {
+      checkout {
+        id
+        webUrl
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+      customer {
+        id
+      }
+    }
+  }
+`
+export const CREATE_CART = gql`
+  mutation CREATE_CART($input: CheckoutCreateInput!) {
+    checkoutCreate(input: $input) {
+      checkout {
+        id
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+`

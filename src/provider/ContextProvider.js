@@ -112,9 +112,9 @@ const ContextProvider = ({ children }) => {
               })
             })
         },
-        removeLineItem: (client, checkoutID, lineItemID) => {
+        removeLineItem: (client, checkoutID, lineItemIDs) => {
           return client.checkout
-            .removeLineItems(checkoutID, [lineItemID])
+            .removeLineItems(checkoutID, lineItemIDs)
             .then(res => {
               updateStore(prevState => {
                 return { ...prevState, checkout: res }
