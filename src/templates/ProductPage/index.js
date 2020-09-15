@@ -25,7 +25,12 @@ const ProductPage = ({ data }) => {
             ))}
           </Col>
           <Col xs={24} sm={24} md={12}>
-            <Title level={3}>{product.title}</Title>
+            <Title
+              level={3}
+              style={{ paddingLeft: '1em', paddingRight: '1em' }}
+            >
+              {product.title}
+            </Title>
             <ProductForm product={product} />
             <Divider />
             <div
@@ -63,6 +68,7 @@ export const query = graphql`
           name
           value
         }
+        compareAtPrice
       }
       priceRange {
         minVariantPrice {

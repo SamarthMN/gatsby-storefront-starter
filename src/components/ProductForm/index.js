@@ -2,8 +2,10 @@ import React, { useState, useContext, useEffect, useCallback } from 'react'
 import find from 'lodash/find'
 import isEqual from 'lodash/isEqual'
 import PropTypes from 'prop-types'
+import { Select, Form, InputNumber, Row, Col, Button, Typography } from 'antd'
+import StoreContext from './../../context/StoreContext'
 
-import StoreContext from '~/context/StoreContext'
+const { Title } = Typography
 
 const ProductForm = ({ product }) => {
   const {
@@ -26,7 +28,6 @@ const ProductForm = ({ product }) => {
   const checkAvailability = useCallback(
     productId => {
       client.product.fetch(productId).then(fetchedProduct => {
-        // this checks the currently selected variant for availability
         const result = fetchedProduct.variants.filter(
           variant => variant.id === productVariant.shopifyId
         )
@@ -42,12 +43,11 @@ const ProductForm = ({ product }) => {
     checkAvailability(product.shopifyId)
   }, [productVariant, checkAvailability, product.shopifyId])
 
-  const handleQuantityChange = ({ target }) => {
-    setQuantity(target.value)
+  const handleQuantityChange = value => {
+    setQuantity(value)
   }
 
-  const handleOptionChange = (optionIndex, { target }) => {
-    const { value } = target
+  const handleOptionChange = (optionIndex, value) => {
     const currentOptions = [...variant.selectedOptions]
 
     currentOptions[optionIndex] = {
@@ -66,15 +66,6 @@ const ProductForm = ({ product }) => {
     addVariantToCart(productVariant.shopifyId, quantity)
   }
 
-  /* 
-  Using this in conjunction with a select input for variants 
-  can cause a bug where the buy button is disabled, this 
-  happens when only one variant is available and it's not the
-  first one in the dropdown list. I didn't feel like putting 
-  in time to fix this since its an edge case and most people
-  wouldn't want to use dropdown styled selector anyways - 
-  at least if the have a sense for good design lol.
-  */
   const checkDisabled = (name, value) => {
     const match = find(variants, {
       selectedOptions: [
@@ -94,51 +85,68 @@ const ProductForm = ({ product }) => {
     minimumFractionDigits: 2,
     style: 'currency',
   }).format(variant.price)
+  const compareAtPrice = Intl.NumberFormat(undefined, {
+    currency: minVariantPrice.currencyCode,
+    minimumFractionDigits: 2,
+    style: 'currency',
+  }).format(variant.compareAtPrice)
 
   return (
-    <>
-      <h3>{price}</h3>
-      {options.map(({ id, name, values }, index) => (
-        <React.Fragment key={id}>
-          <label htmlFor={name}>{name} </label>
-          <select
-            name={name}
-            key={id}
-            onChange={event => handleOptionChange(index, event)}
-          >
-            {values.map(value => (
-              <option
-                value={value}
-                key={`${name}-${value}`}
-                disabled={checkDisabled(name, value)}
-              >
-                {value}
-              </option>
-            ))}
-          </select>
-          <br />
-        </React.Fragment>
-      ))}
-      <label htmlFor="quantity">Quantity </label>
-      <input
-        type="number"
-        id="quantity"
-        name="quantity"
-        min="1"
-        step="1"
-        onChange={handleQuantityChange}
-        value={quantity}
-      />
-      <br />
-      <button
-        type="submit"
-        disabled={!available || adding}
-        onClick={handleAddToCart}
-      >
-        Add to Cart
-      </button>
+    <div style={{ paddingLeft: '2em', paddingRight: '2em' }}>
+      <Title level={5} style={{ display: 'flex' }}>
+        <del style={{ paddingRight: '0.5em' }}>{compareAtPrice}</del>
+        <div>{price}</div>
+      </Title>
+      <Form layout="horizontal">
+        <Row gutter={[24, 24]}>
+          {options.map(({ id, name, values }, index) => (
+            <Col xs={24} sm={24} md={12}>
+              <Form.Item label={name} key={id}>
+                <Select
+                  defaultValue={values[0]}
+                  onChange={event => handleOptionChange(index, event)}
+                >
+                  {values.map(value => (
+                    <Select.Option
+                      value={value}
+                      key={`${name}-${value}`}
+                      disabled={checkDisabled(name, value)}
+                    >
+                      {value}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+          ))}
+          <Col xs={24} sm={24} md={12}>
+            <Form.Item label={'Quantity'}>
+              <InputNumber
+                id="quantity"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min="1"
+                step="1"
+                style={{ width: '100%' }}
+              />
+            </Form.Item>
+          </Col>
+          <Col xs={24} sm={24} md={24} className="align__center">
+            <Button
+              type="submit"
+              disabled={!available}
+              loading={adding}
+              onClick={handleAddToCart}
+              size="large"
+              type="primary"
+            >
+              Add to Cart
+            </Button>
+          </Col>
+        </Row>
+      </Form>
       {!available && <p>This Product is out of Stock!</p>}
-    </>
+    </div>
   )
 }
 
